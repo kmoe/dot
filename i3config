@@ -1,0 +1,199 @@
+# i3 config file (v4)
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+set $mod Mod4
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:monospace 8
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:DejaVu Sans Mono 8
+
+# start a terminal
+bindsym $mod+Return exec urxvt
+# katy: start root terminal with green background
+bindsym $mod+Shift+Return exec urxvt -bg '#0d3816' -e su
+# katy: start terminal with large font size
+bindsym $mod+Ctrl+Return exec "urxvt -fb 'xft:Input Mono:size=20,xft:Hack,xft:Source Code Pro' -fn 'xft:Input Mono:size=20,xft:Hack,xft:Source Code Pro'"
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start dmenu 
+bindsym $mod+d exec dmenu_run
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+z focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# katy: move all workspaces to current display
+bindsym $mod+Shift+d [class=".*"] move workspace to output primary
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+# thanks eivind :)
+bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/i3_exit.sh
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+bar {
+        wheel_up_cmd nop "pls no scroll up"
+        colors {
+                focused_workspace  #5d3c5e #5d3c5e #ffffff
+                urgent_workspace #ea96eb  #5d3c5e #0c0c0c
+        }
+}
+
+focus_follows_mouse no
+
+# disable mouse wheel scrolly action
+# WHY DOESN'T THIS WORK
+# TODO: compile i3 HEAD? idk, --exclude-titlebar might help
+# but probably not
+bindsym button4 nop "no scrolly"
+bindsym button5 nop "no scrolly!" 
+
+# i3lock
+# nice fractal
+# bindsym $mod+Shift+Escape exec "i3lock -e -i /home/katy/.wallpaper/dinkydauset/3rd_order_evolution_of_tilings.png"
+# default: deep blue
+bindsym $mod+Shift+Escape exec "i3lock -c 0f0430"
+
+# screenshot
+bindsym Print exec "scrot -s"
+
+# invert colours
+bindsym $mod+i exec "xrandr-invert-colors -s 0"
+bindsym $mod+Shift+i exec "xrandr-invert-colors -s 1"
+
+# volume control
+bindsym XF86AudioMute exec "amixer set Master toggle && py3-cmd refresh volume_status"
+bindsym XF86AudioRaiseVolume exec "amixer set Master 2%+ && py3-cmd refresh volume_status"
+bindsym XF86AudioLowerVolume exec "amixer set Master 2%- && py3-cmd refresh volume_status"
+
+# player control (spotify/vlc etc)
+# bindsym XF86AudioPrev exec "playerctl previous"
+# bindsym XF86AudioPlay exec "playerctl play-pause"
+# bindsym XF86AudioNext exec "playerctl next"
+
+# backlight (laptop)
+# XF96MonBrightness doesn't work on katy's thinkpad because xev shows weird keysyms for brightness keys
+# bindsym XF86MonBrightnessUp exec --no-startup-id
+# bindsym XF86MonBrightnessDown exec --no-startup-id
+# bindsym $mod+Shift+bracketright exec --no-startup-id # max
+# bindsym $mod+Shift+bracketleft exec --no-startup-id # 20 min
+
+# switch left/right mouse buttons (left handed mode)
+# exec xmodmap -e "pointer = 3 2 1"
+
+# colours <3
+# class                 border  backgr. text    indicator child_border
+client.focused          #5d3c5e #5d3c5e #ffffff #ea96eb   #5d3c5e
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
